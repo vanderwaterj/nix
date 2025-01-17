@@ -127,6 +127,7 @@
     bun
     python314
     git
+    fish
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
