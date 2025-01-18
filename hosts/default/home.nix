@@ -101,12 +101,21 @@ in
         pkgs.vimPlugins.nvim-treesitter
         pkgs.vimPlugins.mason-nvim
         pkgs.vimPlugins.nvim-tree-lua
+        pkgs.vimPlugins.mason-lspconfig-nvim
       ];
       extraLuaConfig = ''
         vim.opt.relativenumber = true
 	
 	require('nvim-tree').setup()
 	require('mason').setup()
+	require('mason-lspconfig').setup({
+		ensure_installed = {
+			"lua-language-server",
+			"pyright",
+			"nil",
+			"ts_ls",
+		}
+	})
 	require('neogit').setup()
 	require('telescope').setup()
 	require('blink-cmp').setup()

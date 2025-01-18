@@ -119,7 +119,6 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    ghc
     rustup
     nodejs
     neovim
@@ -131,6 +130,7 @@
     cargo
     gcc
     eza
+    ghc
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
