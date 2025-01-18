@@ -134,28 +134,44 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+
   environment.systemPackages = with pkgs; [
-    vim
-    wget
-    rustup
-    nodejs
-    neovim
-    bun
-    python314
-    git
-    fish
-    kitty
-    cargo
-    gcc
-    gnumake
-    eza
-    ghc
-    tmux
-    ripgrep
-    fzf
-    nixfmt-rfc-style
-    treefmt
-    stylua
+    # Text Editors and IDEs
+    vim # Classic Vim text editor
+    neovim # Modernized Vim with Lua scripting
+
+    # Shell and Terminal Tools
+    fish # Friendly Interactive SHell
+    kitty # Fast and feature-rich terminal emulator
+    tmux # Terminal multiplexer for session management
+
+    # Programming Languages and Tools
+    rustup # Rust language version manager
+    cargo # Rust package manager
+    gcc # GNU Compiler Collection for C/C++
+    gnumake # GNU Make build automation tool
+    nodejs # JavaScript runtime for building and running Node.js apps
+    python314 # Python 3.14 programming language
+    ghc # Glasgow Haskell Compiler
+
+    # Web and Networking Utilities
+    wget # Command-line utility for downloading files
+
+    # Productivity Tools
+    eza # Modern replacement for `ls` with more features
+
+    # Source Control
+    git # Distributed version control system
+    gh # GitHub CLI for managing GitHub repositories
+
+    # File Searching and Navigation
+    ripgrep # Fast recursive search tool
+    fzf # Command-line fuzzy finder
+
+    # Code Formatters and Linters
+    nixfmt-rfc-style # Formatter for Nix files in RFC style
+    treefmt # Universal file formatter manager
+    stylua # Formatter for Lua code
   ];
 
   fonts.packages = with pkgs; [
