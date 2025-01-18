@@ -110,9 +110,9 @@ in
 	require('mason').setup()
 	require('mason-lspconfig').setup({
 		ensure_installed = {
-			"lua-language-server",
+			"lua_ls",
 			"pyright",
-			"nil",
+			"nil_ls",
 			"ts_ls",
 		}
 	})
@@ -121,6 +121,10 @@ in
 	require('blink-cmp').setup()
 	require('nvim-treesitter').setup()
       '';
+    };
+    tmux = {
+      enable = true;
+      clock24 = true;
     };
   };
 }
