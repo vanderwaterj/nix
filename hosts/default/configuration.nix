@@ -52,16 +52,27 @@
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  # Configure keymaps in X11
+  services = {
+    xserver = {
+      enable = true;
+      displayManager = {
+        autoLogin = {
+	  enable = true;
+	  user = "vanderwaterj";
+	};
+      };
+      xkb = {
+        options = "ctrl:nocaps";
+        layout = "us";
+	variant = "";
+      };
+    };
   };
 
   # Enable CUPS to print documents.
@@ -104,9 +115,6 @@
     };
   };
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "vanderwaterj";
 
   # Install firefox.
   programs.firefox.enable = true;
