@@ -94,25 +94,43 @@ in
       enable = true;
       defaultEditor = true;
       plugins = [
-        pkgs.vimPlugins.telescope-nvim
-        pkgs.vimPlugins.neogit
-        pkgs.vimPlugins.undotree
-        pkgs.vimPlugins.blink-cmp
-        pkgs.vimPlugins.nvim-treesitter
+	# Base neovim plugins
+        pkgs.vimPlugins.nvim-treesitter 
         pkgs.vimPlugins.mason-nvim
-        pkgs.vimPlugins.nvim-tree-lua
         pkgs.vimPlugins.mason-lspconfig-nvim
-	pkgs.vimPlugins.vim-tmux-navigator
-	pkgs.vimPlugins.nvim-web-devicons
-      	pkgs.vimPlugins.catppuccin-vim
+        pkgs.vimPlugins.blink-cmp
+        pkgs.vimPlugins.telescope-nvim
+	pkgs.vimPlugins.telescope-fzf-native-nvim
+        pkgs.vimPlugins.undotree
 
+        pkgs.vimPlugins.nvim-tree-lua
+	pkgs.vimPlugins.vim-tmux-navigator
+
+	# Utility plugins
+	pkgs.vimPlugins.which-key-nvim
+	pkgs.vimPlugins.oil-nvim
+
+	# Visual plugins
+	pkgs.vimPlugins.nvim-web-devicons
+      	pkgs.vimPlugins.catppuccin-nvim
 	pkgs.vimPlugins.lualine-nvim
-        
+
+	# Git plugins
+        pkgs.vimPlugins.neogit
+	pkgs.vimPlugins.gitsigns-nvim
       ];
       extraLuaConfig = ''
-vim.opt.relativenumber = true
-
-vim.cmd.colorscheme("catppuccin_mocha")
+require("catppuccin").setup({
+	flavour = "mocha",
+	styles = {
+		comments = { "italic" },
+		conditionals = { "italic" },
+	},
+	integrations = {
+		which_key = false,
+	},
+})
+vim.cmd.colorscheme "catppuccin"
 
 require('nvim-tree').setup({
 	view = {
@@ -130,10 +148,150 @@ require('mason-lspconfig').setup({
 	}
 })
 
+require('oil').setup({
+	default_file_explorer = true,
+	columns = {
+		"icon",
+		"permissions",
+		"size",
+		"mtime",
+	},
+
+	-- Buffer-local options to use for oil buffers
+  	buf_options = {
+	    buflisted = false,
+	    bufhidden = "hide",
+	},
+
+	-- Window-local options to use for oil buffers
+	win_options = {
+		wrap = false,
+		signcolumn = "no",
+		cursorcolumn = false,
+		foldcolumn = "0",
+		spell = false,
+		list = false,
+		conceallevel = 3,
+		concealcursor = "nvic",
+	},
+	-- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
+	delete_to_trash = false,
+
+	-- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
+	skip_confirm_for_simple_edits = false,
+
+	-- Selecting a new/moved/renamed file or directory will prompt you to save changes first
+	-- (:help prompt_save_on_select_new_entry)
+	prompt_save_on_select_new_entry = true,
+	
+	-- Oil will automatically delete hidden buffers after this delay
+	-- You can set the delay to false to disable cleanup entirely
+	-- Note that the cleanup process only starts when none of the oil buffers are currently displayed
+	cleanup_delay_ms = 2000,
+	
+	lsp_file_methods = {
+		-- Enable or disable LSP file operations
+		enabled = true,
+
+		-- Time to wait for LSP file operations to complete before skipping
+		timeout_ms = 1000,
+
+		-- Set to true to autosave buffers that are updated with LSP willRenameFiles
+		-- Set to "unmodified" to only save unmodified buffers
+		autosave_changes = false,
+	},
+
+	-- Constrain the cursor to the editable parts of the oil buffer
+	-- Set to `false` to disable, or "name" to keep it on the file names
+	constrain_cursor = "editable",
+
+	-- Set to true to watch the filesystem for changes and reload oil
+	watch_for_changes = false,
+
+	-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
+	-- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
+	-- Additionally, if it is a string that matches "actions.<name>",
+	-- it will use the mapping at require("oil.actions").<name>
+	-- Set to `false` to remove a keymap
+	-- See :help oil-actions for a list of all available actions
+	keymaps = {
+		["g?"] = { "actions.show_help", mode = "n" },
+		["<CR>"] = "actions.select",
+		["<C-s>"] = { "actions.select", opts = { vertical = true } },
+		["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+		["<C-t>"] = { "actions.select", opts = { tab = true } },
+		["<C-p>"] = "actions.preview",
+		["<C-c>"] = { "actions.close", mode = "n" },
+		["<C-l>"] = "actions.refresh",
+		["-"] = { "actions.parent", mode = "n" },
+		["_"] = { "actions.open_cwd", mode = "n" },
+		["`"] = { "actions.cd", mode = "n" },
+		["~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+		["gs"] = { "actions.change_sort", mode = "n" },
+		["gx"] = "actions.open_external",
+		["g."] = { "actions.toggle_hidden", mode = "n" },
+		["g\\"] = { "actions.toggle_trash", mode = "n" },
+	},
+})
+
+require('gitsigns').setup {
+	signs = {
+		add          = { text = '┃' },
+		change       = { text = '┃' },
+		delete       = { text = '_' },
+		topdelete    = { text = '‾' },
+		changedelete = { text = '~' },
+		untracked    = { text = '┆' },
+	},
+	signs_staged = {
+		add          = { text = '┃' },
+		change       = { text = '┃' },
+		delete       = { text = '_' },
+		topdelete    = { text = '‾' },
+		changedelete = { text = '~' },
+		untracked    = { text = '┆' },
+	},
+	signs_staged_enable = true,
+	signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+	numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+	linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+	word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+	watch_gitdir = {
+		follow_files = true
+	},
+	auto_attach = true,
+	attach_to_untracked = false,
+	current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+	current_line_blame_opts = {
+		virt_text = true,
+		virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+		delay = 1000,
+		ignore_whitespace = false,
+		virt_text_priority = 100,
+		use_focus = true,
+	},
+	current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
+	sign_priority = 6,
+	update_debounce = 100,
+	status_formatter = nil, -- Use default
+	max_file_length = 40000, -- Disable if file is longer than this (in lines)
+	preview_config = {
+		-- Options passed to nvim_open_win
+		border = 'single',
+		style = 'minimal',
+		relative = 'cursor',
+		row = 0,
+		col = 1
+	},
+}
+
 require('neogit').setup()
-require('telescope').setup()
 require('blink-cmp').setup()
 require('nvim-treesitter').setup()
+
+require('telescope').setup()
+require('telescope').load_extension('fzf')
+
 require('lualine').setup({
   options = {
     icons_enabled = true,
@@ -176,7 +334,11 @@ require('lualine').setup({
   extensions = {}
 })
 
-vim.keymap.set('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+vim.opt.relativenumber = true
+
+-- KEYBINDINGS
+vim.g.mapleader = " "        --   Must be before all other keybinds
+vim.g.maplocalleader = " "   --   ^                               ^
 
 -- Tmux-style navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
@@ -187,6 +349,16 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 -- Center screen after half-page scroll
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+
+-- Telescope controls
+vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "Search files" })
+vim.keymap.set("n", "<leader>sg", "<cmd>Telescope live_grep<cr>", { desc = "Search grep" })
+vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "Search buffers" })
+vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "Search help" })
+
+-- Oil controls
+vim.keymap.set("n", "<C-b>", "<cmd>Oil<cr>", { desc = "Open oil buffer" })
+-- vim.keymap.set('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
       '';
     };
     tmux = {

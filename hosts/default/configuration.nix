@@ -137,9 +137,12 @@
     kitty
     cargo
     gcc
+    gnumake
     eza
     ghc
     tmux
+    ripgrep
+    fzf
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
