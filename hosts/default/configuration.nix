@@ -2,21 +2,26 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+  ];
 
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
-  
+
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -48,7 +53,10 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
@@ -63,14 +71,14 @@
       enable = true;
       displayManager = {
         autoLogin = {
-	  enable = true;
-	  user = "vanderwaterj";
-	};
+          enable = true;
+          user = "vanderwaterj";
+        };
       };
       xkb = {
         options = "ctrl:nocaps";
         layout = "us";
-	variant = "";
+        variant = "";
       };
     };
   };
@@ -101,10 +109,13 @@
   users.users.vanderwaterj = {
     isNormalUser = true;
     description = "Jonathan Vanderwater";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -114,7 +125,6 @@
       "vanderwaterj" = import ./home.nix;
     };
   };
-
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -143,6 +153,7 @@
     tmux
     ripgrep
     fzf
+    nixfmt-rfc-style
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
