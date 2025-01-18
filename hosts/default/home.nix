@@ -95,11 +95,22 @@ in
       defaultEditor = true;
       plugins = [
         pkgs.vimPlugins.telescope-nvim
+        pkgs.vimPlugins.neogit
+        pkgs.vimPlugins.undotree
+        pkgs.vimPlugins.blink-cmp
+        pkgs.vimPlugins.nvim-treesitter
+        pkgs.vimPlugins.mason-nvim
+        pkgs.vimPlugins.nvim-tree-lua
       ];
       extraLuaConfig = ''
         vim.opt.relativenumber = true
-
+	
+	require('nvim-tree').setup()
+	require('mason').setup()
+	require('neogit').setup()
 	require('telescope').setup()
+	require('blink-cmp').setup()
+	require('nvim-treesitter').setup()
       '';
     };
   };

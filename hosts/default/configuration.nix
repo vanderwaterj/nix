@@ -128,6 +128,9 @@
     git
     fish
     kitty
+    cargo
+    gcc
+    eza
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
