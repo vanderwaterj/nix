@@ -155,6 +155,11 @@
     fzf
     nixfmt-rfc-style
     treefmt
+    stylua
+  ];
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.iosevka-term
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
