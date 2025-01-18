@@ -90,5 +90,17 @@ in
       enable = true;
       themeFile = "Catppuccin-Mocha";
     };
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      plugins = [
+        pkgs.vimPlugins.telescope-nvim
+      ];
+      extraLuaConfig = ''
+        vim.opt.relativenumber = true
+
+	require('telescope').setup()
+      '';
+    };
   };
 }
