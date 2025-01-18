@@ -119,7 +119,6 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    kitty
     ghc
     rustup
     nodejs
@@ -128,6 +127,7 @@
     python314
     git
     fish
+    kitty
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

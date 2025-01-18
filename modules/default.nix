@@ -3,6 +3,5 @@
 
 {
   imports = [
-    # ./terminals/fish.nix
   ];
 }
