@@ -10,13 +10,11 @@
     };
   };
 
-  outputs =
-    { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
+    in {
       formatter.${system} = pkgs.nixfmt-rfc-style;
       nixosConfigurations = {
         default = nixpkgs.lib.nixosSystem {
