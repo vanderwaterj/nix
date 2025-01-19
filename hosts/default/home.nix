@@ -49,6 +49,9 @@ in
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
+    ".p10k.zsh".source = ./.p10k.zsh;
+    # ".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
@@ -93,6 +96,27 @@ in
         name = "IosevkaTerm Nerd Font";
         size = 14;
       };
+      settings = {
+        shell = "zsh";
+      };
+    };
+    zsh = {
+      enable = true;
+      shellAliases = {
+        rebuild = "sudo nixos-rebuild switch --flake ~/dev/nix#default";
+      };
+      syntaxHighlighting.enable = true;
+      autosuggestion.enable = true;
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "eza"
+        ];
+      };
+      initExtra = ''
+      source ./.p10k.zsh
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      '';
     };
     neovim = {
       enable = true;
@@ -119,6 +143,7 @@ in
         pkgs.vimPlugins.catppuccin-nvim
         pkgs.vimPlugins.lualine-nvim
         pkgs.vimPlugins.alpha-nvim
+        pkgs.vimPlugins.noice-nvim
 
         # Git plugins
         pkgs.vimPlugins.neogit
@@ -143,6 +168,25 @@ in
         	startify.config
         )
 
+        require("noice").setup({
+          lsp = {
+            -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+            override = {
+              ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+              ["vim.lsp.util.stylize_markdown"] = true,
+              ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+            },
+          },
+          -- you can enable a preset for easier configuration
+          presets = {
+            bottom_search = true, -- use a classic bottom cmdline for search
+            command_palette = true, -- position the cmdline and popupmenu together
+            long_message_to_split = true, -- long messages will be sent to a split
+            inc_rename = false, -- enables an input dialog for inc-rename.nvim
+            lsp_doc_border = false, -- add a border to hover docs and signature help
+          },
+        })
+
         require("nvim-tree").setup({
         	view = {
         		side = "right",
@@ -153,6 +197,11 @@ in
         require("mason-lspconfig").setup({
         	ensure_installed = {
         		"lua_ls",
+            "rust_analyzer",
+            "jsonls",
+            "html",
+            "tailwindcss",
+            "bashls",
         		"pyright",
         		"nil_ls",
         		"ts_ls",
@@ -300,7 +349,13 @@ in
         require("blink-cmp").setup()
         require("nvim-treesitter").setup()
 
-        require("telescope").setup()
+        require("telescope").setup({
+          pickers = {
+            find_files = {
+              hidden = true
+            }
+          }
+        })
         require("telescope").load_extension("fzf")
 
         require("lualine").setup({

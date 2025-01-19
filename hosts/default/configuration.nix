@@ -141,9 +141,12 @@
     neovim # Modernized Vim with Lua scripting
 
     # Shell and Terminal Tools
-    fish # Friendly Interactive SHell
     kitty # Fast and feature-rich terminal emulator
     tmux # Terminal multiplexer for session management
+    zsh # Terminal
+    oh-my-zsh # zsh configuration
+    zsh-autosuggestions
+    zsh-powerlevel10k
 
     # Programming Languages and Tools
     rustup # Rust language version manager
@@ -159,6 +162,7 @@
 
     # Productivity Tools
     eza # Modern replacement for `ls` with more features
+    neofetch # Display system stats
 
     # Source Control
     git # Distributed version control system
