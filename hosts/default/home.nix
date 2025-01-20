@@ -110,7 +110,6 @@ in
         pkgs.vimPlugins.telescope-fzf-native-nvim
         pkgs.vimPlugins.undotree
 
-        pkgs.vimPlugins.nvim-tree-lua
         pkgs.vimPlugins.vim-tmux-navigator
 
         # Utility plugins
