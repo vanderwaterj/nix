@@ -35,12 +35,6 @@ require("noice").setup({
   },
 })
 
-require("nvim-tree").setup({
-  view = {
-    side = "right",
-    width = 50,
-  },
-})
 require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
