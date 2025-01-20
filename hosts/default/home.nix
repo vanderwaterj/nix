@@ -18,6 +18,9 @@ in
     # # "Hello, world!" when run.
     # pkgs.hello
 
+    pkgs.lua-language-server
+    pkgs.typescript-language-server
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -102,6 +105,8 @@ in
       defaultEditor = true;
       plugins = [
         # Base neovim plugins
+        pkgs.vimPlugins.lazy-nvim
+
         pkgs.vimPlugins.nvim-treesitter
         pkgs.vimPlugins.mason-nvim
         pkgs.vimPlugins.mason-lspconfig-nvim
