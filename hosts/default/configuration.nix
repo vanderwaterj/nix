@@ -152,6 +152,13 @@
     python314 # Python 3.14 programming language
     ghc # Glasgow Haskell Compiler
 
+    openjdk17-bootstrap # Java runtime
+    scala # Scala 3 programming language
+    coursier # Scala dependency manager
+    sbt # Build tool for Scala & Java
+
+    xclip # Clipboard utility
+
     # Web and Networking Utilities
     wget # Command-line utility for downloading files
 
