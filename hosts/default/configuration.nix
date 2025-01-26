@@ -178,6 +178,8 @@
     nixfmt-rfc-style # Formatter for Nix files in RFC style
     treefmt # Universal file formatter manager
     stylua # Formatter for Lua code
+
+    discord
   ];
 
   fonts.packages = with pkgs; [
