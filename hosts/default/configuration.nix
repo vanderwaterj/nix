@@ -165,6 +165,7 @@
     # Productivity Tools
     eza # Modern replacement for `ls` with more features
     neofetch # Display system stats
+    tree
 
     # Source Control
     git # Distributed version control system
