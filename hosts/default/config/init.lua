@@ -70,6 +70,7 @@ require("lazy").setup({
 			servers = {
 				lua_ls = {},
 				ts_ls = {},
+				rust_analyzer = {},
 			},
 		},
 

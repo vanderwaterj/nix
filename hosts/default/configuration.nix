@@ -156,6 +156,7 @@
     scala # Scala 3 programming language
     coursier # Scala dependency manager
     sbt # Build tool for Scala & Java
+    electron
 
     xclip # Clipboard utility
 
